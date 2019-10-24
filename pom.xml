@@ -43,6 +43,13 @@
 			<optional>true</optional> <!-- Optional의 값이 true이면 이 프로젝트를 상속(Dependency)하는 프로젝트에 상속되지 않음을 나타냄. -->
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+		    <groupId>org.modelmapper</groupId>
+		    <artifactId>modelmapper</artifactId>
+		    <version>2.3.1</version>
+		</dependency>
+		
 		<!-- test -->
 		<dependency>
 			<groupId>com.h2database</groupId>
