@@ -39,7 +39,7 @@ public class EventControllerTests {
 	
 	@Test
 	public void createEvent() throws Exception {
-		EventDto event = EventDto.builder()
+		EventDto eventDto = EventDto.builder()
 				.name("Spring")
 				.description("Rest Api Development with Spring")
 				.beginEnrollmentDateTime(LocalDateTime.of(2019, 10, 21, 9, 30))
@@ -54,10 +54,10 @@ public class EventControllerTests {
 //		Mockito.when(eventRepository.save(event)).thenReturn(event);
 		// Mockito? 뭐하는 놈이냐?
 		
-		mockMvc.perform(post("/api/events/")
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.accept(MediaTypes.HAL_JSON)
-					.content(objectMapper.writeValueAsString(event)))
+		this.mockMvc.perform(post("/api/events/")
+						.contentType(MediaType.APPLICATION_JSON_UTF8)
+						.accept(MediaTypes.HAL_JSON)
+						.content(objectMapper.writeValueAsString(eventDto)))
 					.andDo(print())
 					.andExpect(status().isCreated())
 					.andExpect(jsonPath("id").exists())
@@ -88,14 +88,23 @@ public class EventControllerTests {
 				.offline(false)
 				.eventStatus(EventStatus.PUBLISHED)
 				.build();
-//		Mockito.when(eventRepository.save(event)).thenReturn(event);
-		// Mockito? 뭐하는 놈이냐?
 		
-		mockMvc.perform(post("/api/events/")
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.accept(MediaTypes.HAL_JSON)
-					.content(objectMapper.writeValueAsString(event)))
+		this.mockMvc.perform(post("/api/events/")
+						.contentType(MediaType.APPLICATION_JSON_UTF8)
+						.accept(MediaTypes.HAL_JSON)
+						.content(objectMapper.writeValueAsString(event)))
 					.andDo(print())
+					.andExpect(status().isBadRequest())
+					;
+	}
+	
+	@Test
+	public void createEvent_BadRequest_EmptyInput() throws Exception {
+		EventDto eventDto = EventDto.builder().build();
+		
+		this.mockMvc.perform(post("/api/events/")
+						.contentType(MediaType.APPLICATION_JSON_UTF8)
+						.content(this.objectMapper.writeValueAsString(eventDto)))
 					.andExpect(status().isBadRequest())
 					;
 	}
